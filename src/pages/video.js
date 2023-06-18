@@ -1,9 +1,10 @@
 import React, { useRef, useState } from "react";
 import "./video.css";
 import VideoFooter from "./components/footer/VideoFooter";
+import VideoSidebar from "./components/sidebar/VideoSidebar";
 
 
-function Video({curtidas,mensagens,compartilhamentos, nome, descricao, hashtags, musica,url}) {
+function Video({curtidas,mensagens,compartilhamentos, nome, descricao, musica,url}) {
   const videoRef = useRef(null);
   const [play, setPlay] = useState(false);
 
@@ -24,14 +25,17 @@ function Video({curtidas,mensagens,compartilhamentos, nome, descricao, hashtags,
         ref={videoRef}
         onClick={darPlayVideo}
         loop
-        src="https://firebasestorage.googleapis.com/v0/b/jornada-dev.appspot.com/o/brecker2.mp4?alt=media&token=d1a44acd-bef3-4b18-bafe-92fa0b26828a"
+        src={url}
       ></video>
 
-      
+      <VideoSidebar
+      curtidas = {curtidas}
+      mensagens = {mensagens}
+      compartilhamentos= {compartilhamentos}
+      />
       <VideoFooter 
       nome = {nome}
       descricao={descricao}
-      hashtags={hashtags}
       musica={musica}
       />
     </div>
