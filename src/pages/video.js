@@ -1,39 +1,45 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import React, { useRef, useState } from 'react'
-import "./video.css"
-
-function video() {
-  const videoRef = useRef(null)
-  const [play, setPlay] = useState(false)
-
-  function handdleStart() {
+import React, { useRef, useState } from "react";
+import "./video.css";
+import VideoFooter from "./components/footer/VideoFooter";
+import VideoSidebar from "./components/sidebar/VideoSidebar";
 
 
-    if (play) {
-      videoRef.current.pause()
-      setPlay(false)
+function Video({curtidas,mensagens,compartilhamentos, nome, descricao, musica,url}) {
+  const videoRef = useRef(null);
+  const [play, setPlay] = useState(false);
 
+  function darPlayVideo() {
+    if (!play) {
+      videoRef.current.play();
+      setPlay(true);
     } else {
-      videoRef.current.play()
-      setPlay(true)
+      videoRef.current.pause();
+      setPlay(false);
     }
-
   }
 
   return (
-    <div className='video'>
-
+    <div className="video">
       <video
         className="video__player"
         ref={videoRef}
-        onClick={handdleStart}
-        controls
+        onClick={darPlayVideo}
         loop
-        src="https://firebasestorage.googleapis.com/v0/b/jornada-dev.appspot.com/o/brecker2.mp4?alt=media&token=d1a44acd-bef3-4b18-bafe-92fa0b26828a"
+        src={url}
       ></video>
 
+      <VideoSidebar
+      curtidas = {curtidas}
+      mensagens = {mensagens}
+      compartilhamentos= {compartilhamentos}
+      />
+      <VideoFooter 
+      nome = {nome}
+      descricao={descricao}
+      musica={musica}
+      />
     </div>
-  )
+  );
 }
 
-export default video
+export default Video;
