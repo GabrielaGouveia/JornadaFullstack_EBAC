@@ -1,35 +1,62 @@
 
+import React, { useEffect, useState} from "react"
 import './App.css';
 import Video from "./pages/video"
+import db from "./config/firebase"
+import {collection, getDocs} from 'firebase/firestore/lite';
 
 function App() {
-  return (
-    <div className="App">
-      <div className='app__videos'>
-        <Video
-        curtidas={100}
-        mensagens={200}
-        compartilhamentos={300}
-        nome="Pedro"
-        descricao="Brecker o goleiro"
-        musica="musica épica"
-        url="https://poqlymuephttfsljdabn.supabase.co/storage/v1/object/public/jornadadev/brecker2.mp4?t=2023-05-22T19%3A37%3A45.885Z"
-        
-        
-        />
 
-        <Video
-        curtidas={430}
-        mensagens={550}
-        compartilhamentos={698}
-        nome="Paulo"
-        descricao="Bird olhando para a câmera"
-        musica="Clap your hands"
-        url="https://poqlymuephttfsljdabn.supabase.co/storage/v1/object/public/jornadadev/bird.mp4?t=2023-05-22T19%3A40%3A47.052Z"
+    let maxHeight;
+    if(window.innerHeight<= 800){
+      maxHeight=window.innerHeight
+    }
+
+
+   const [video,setVideos]= useState([])
+
+    async function getVideos(){
+      const videosCollection = collection(db,"videos")
+      const videosSnapshot= await getDocs(videosCollection)
+      const videoList = videosSnapshot.docs.map(doc=>doc.data())
+      setVideos(videoList)
+    }
+    
+   
+
+   useEffect(()=>{
+    getVideos();
+   },[])
+    
+   
+
+
+
+  return (
+    <div className="App" style={{maxHeight:maxHeight + "px"}}>
+      <div className='app__videos'>
+        {video.map((item)=>{
+          return( 
+            <Video
+            curtidas={item.curtidas}
+            mensagens={item.mensagens}
+            compartilhamentos={item.compartilhamentos}
+            nome= {item.nome}
+            descricao={item.descricao}
+            musica={item.musica}
+            url={item.url}
+            
+            
+            
+            />
+
+            
+
+          )
+
+        })}
+
         
-        
-        
-        />
         
          
       </div>
